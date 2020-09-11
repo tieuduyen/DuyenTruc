@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 10, 2020 lúc 02:08 PM
+-- Thời gian đã tạo: Th9 11, 2020 lúc 02:40 AM
 -- Phiên bản máy phục vụ: 10.4.13-MariaDB
 -- Phiên bản PHP: 7.4.8
 
@@ -102,14 +102,14 @@ CREATE TABLE `comment` (
   `Rate` double DEFAULT NULL,
   `Content` varchar(255) DEFAULT NULL,
   `CustomerID` int(11) DEFAULT NULL,
-  `RoomTypeID` int(11) DEFAULT NULL
+  `HotelID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `comment`
 --
 
-INSERT INTO `comment` (`CommentID`, `CommentDate`, `Rate`, `Content`, `CustomerID`, `RoomTypeID`) VALUES
+INSERT INTO `comment` (`CommentID`, `CommentDate`, `Rate`, `Content`, `CustomerID`, `HotelID`) VALUES
 (1, '2020-09-10', 5, 'Good', 1, 1);
 
 -- --------------------------------------------------------
@@ -147,16 +147,15 @@ CREATE TABLE `customer` (
   `Phone` varchar(13) DEFAULT NULL,
   `Sex` varchar(10) DEFAULT NULL,
   `BirthDate` date DEFAULT NULL,
-  `Password` varchar(25) DEFAULT NULL,
-  `CreditCardID` int(11) DEFAULT NULL
+  `Password` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `customer`
 --
 
-INSERT INTO `customer` (`CustomerID`, `Email`, `CustomerName`, `Phone`, `Sex`, `BirthDate`, `Password`, `CreditCardID`) VALUES
-(1, 'truckt12a3@gmail.com', 'Phạm Văn Trực', '0123456789', 'Nam', '2000-08-19', 'truc123456', 1);
+INSERT INTO `customer` (`CustomerID`, `Email`, `CustomerName`, `Phone`, `Sex`, `BirthDate`, `Password`) VALUES
+(1, 'truckt12a3@gmail.com', 'Phạm Văn Trực', '0123456789', 'Nam', '2000-08-19', 'truc123456');
 
 -- --------------------------------------------------------
 
@@ -372,7 +371,7 @@ ALTER TABLE `city`
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`CommentID`),
   ADD KEY `fk_comment_customer` (`CustomerID`),
-  ADD KEY `fk_comment_roomType` (`RoomTypeID`);
+  ADD KEY `fk_comment_roomType` (`HotelID`);
 
 --
 -- Chỉ mục cho bảng `creditcard`
@@ -454,7 +453,7 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT cho bảng `bookingdetails`
 --
 ALTER TABLE `bookingdetails`
-  MODIFY `BookingDetailsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `BookingDetailsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `city`
@@ -538,13 +537,14 @@ ALTER TABLE `bookingdetails`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `fk_comment_customer` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`),
-  ADD CONSTRAINT `fk_comment_roomType` FOREIGN KEY (`RoomTypeID`) REFERENCES `roomtype` (`RoomTypeID`);
+  ADD CONSTRAINT `fk_comment_roomType` FOREIGN KEY (`HotelID`) REFERENCES `hotel` (`HotelID`);
 
 --
 -- Các ràng buộc cho bảng `customer`
 --
 ALTER TABLE `customer`
-  ADD CONSTRAINT `fk_customer_booking` FOREIGN KEY (`CustomerID`) REFERENCES `booking` (`BookingID`);
+  ADD CONSTRAINT `fk_customer_booking` FOREIGN KEY (`CustomerID`) REFERENCES `booking` (`BookingID`),
+  ADD CONSTRAINT `fk_customer_creditCard` FOREIGN KEY (`CustomerID`) REFERENCES `creditcard` (`CreditCardID`);
 
 --
 -- Các ràng buộc cho bảng `hotel`
