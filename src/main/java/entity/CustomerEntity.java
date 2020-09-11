@@ -36,4 +36,93 @@ public class CustomerEntity {
     
     @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     List<CommentEntity> comment;
+
+    public CustomerEntity() {
+    }
+
+    public CustomerEntity(String email, String name, String phone, String sex, LocalDate birthdate, String password, CreditCardEntity creditCard, BookingEntity booking, List<CommentEntity> comment) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.sex = sex;
+        this.birthdate = birthdate;
+        this.password = password;
+        this.creditCard = creditCard;
+        this.booking = booking;
+        this.comment = comment;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public CreditCardEntity getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCardEntity creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public BookingEntity getBooking() {
+        return booking;
+    }
+
+    public void setBooking(BookingEntity booking) {
+        this.booking = booking;
+    }
+
+    public List<CommentEntity> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<CommentEntity> comment) {
+        this.comment = comment;
+    }
+    
+    
 }

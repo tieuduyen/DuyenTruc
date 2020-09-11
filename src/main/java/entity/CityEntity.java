@@ -42,8 +42,6 @@ public class CityEntity {
 
     public void setHotelList(List<HotelEntity> hotelList) {
         this.hotelList = hotelList;
-    }
-    
-    
+    }  
 
 }

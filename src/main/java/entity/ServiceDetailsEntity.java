@@ -25,5 +25,48 @@ public class ServiceDetailsEntity {
     @ManyToOne
     @JoinColumn(name="BookingDetailsID")//khóa ngoại 
     private BookingDetailsEntity bookingDetail;
+
+    public ServiceDetailsEntity() {
+    }
+
+    public ServiceDetailsEntity(LocalDate time, int numberOfPeople, ServiceEntity service, BookingDetailsEntity bookingDetail) {
+        this.time = time;
+        this.numberOfPeople = numberOfPeople;
+        this.service = service;
+        this.bookingDetail = bookingDetail;
+    }
+
+    public LocalDate getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDate time) {
+        this.time = time;
+    }
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    public ServiceEntity getService() {
+        return service;
+    }
+
+    public void setService(ServiceEntity service) {
+        this.service = service;
+    }
+
+    public BookingDetailsEntity getBookingDetail() {
+        return bookingDetail;
+    }
+
+    public void setBookingDetail(BookingDetailsEntity bookingDetail) {
+        this.bookingDetail = bookingDetail;
+    }
+    
     
 }
