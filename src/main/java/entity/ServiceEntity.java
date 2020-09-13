@@ -1,5 +1,6 @@
 package entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -14,12 +16,16 @@ import javax.persistence.Table;
 public class ServiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ServiceID")
+    private int id;
     
     private String serviceName;
     private Double price;
     
-    @OneToOne(mappedBy = "service")
-    private ServiceDetailsEntity serviceDetails;
+    //Setup relationshipss with ServiceDetails
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private ServiceDetailsEntity serviceDetails;//(**)
     
     @ManyToOne
     @JoinColumn(name="HotelID")//khóa ngoại 
@@ -28,11 +34,12 @@ public class ServiceEntity {
     public ServiceEntity() {
     }
 
-    public ServiceEntity(String serviceName, Double price, ServiceDetailsEntity serviceDetails, HotelEntity hotel) {
-        this.serviceName = serviceName;
-        this.price = price;
-        this.serviceDetails = serviceDetails;
-        this.hotel = hotel;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getServiceName() {

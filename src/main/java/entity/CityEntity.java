@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,26 +15,32 @@ import javax.persistence.Table;
 public class CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CityID")
+    private int id;
     
-    private String cityName;
+    @Column(name = "CityName")
+    private String name;
     
-    @OneToMany(mappedBy = "city",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY)
     List<HotelEntity> hotelList;
 
     public CityEntity() {
     }
 
-    public CityEntity(String cityName, List<HotelEntity> hotelList) {
-        this.cityName = cityName;
-        this.hotelList = hotelList;
+    public int getId() {
+        return id;
     }
 
-    public String getCityName() {
-        return cityName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<HotelEntity> getHotelList() {

@@ -1,13 +1,13 @@
 package entity;
 
 import java.time.LocalDate;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,9 +15,16 @@ import javax.persistence.Table;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CommentID")
+    private int id;
     
+    @Column(name = "CommentDate")
     private LocalDate commentDate;
+    
+    @Column(name = "Rate")
     private Double rate;
+    
+    @Column(name = "Content")
     private String content;
     
     @ManyToOne
@@ -31,12 +38,12 @@ public class CommentEntity {
     public CommentEntity() {
     }
 
-    public CommentEntity(LocalDate commentDate, Double rate, String content, CustomerEntity customer, HotelEntity hotel) {
-        this.commentDate = commentDate;
-        this.rate = rate;
-        this.content = content;
-        this.customer = customer;
-        this.hotel = hotel;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getCommentDate() {

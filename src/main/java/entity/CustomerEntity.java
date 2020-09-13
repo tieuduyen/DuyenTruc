@@ -2,7 +2,6 @@ package entity;
 
 import java.time.LocalDate;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,20 +18,37 @@ import javax.persistence.Table;
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CustomerID")
+    private int id;
     
+    @Column(name="Email")
     private String email;
+    
     @Column(name="CustomerName")
     private String name;
+    
+    @Column(name="phone")
     private String phone;
+    
+    @Column(name="Sex")
     private String sex;
+    
+    @Column(name="Birthdate")
     private LocalDate birthdate;
+    
+    @Column(name="Password")
     private String password;
     
-    @OneToOne(mappedBy = "service")
-    private CreditCardEntity creditCard;
+        
+    //Setup relationshipss with CreditCard
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private CreditCardEntity creditCard;//(1)
     
-    @OneToOne(mappedBy = "service")
-    private BookingEntity booking;
+     //Setup relationshipss with CreditCard
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private BookingEntity booking;//(2)
     
     @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     List<CommentEntity> comment;
@@ -40,17 +56,13 @@ public class CustomerEntity {
     public CustomerEntity() {
     }
 
-    public CustomerEntity(String email, String name, String phone, String sex, LocalDate birthdate, String password, CreditCardEntity creditCard, BookingEntity booking, List<CommentEntity> comment) {
-        this.email = email;
-        this.name = name;
-        this.phone = phone;
-        this.sex = sex;
-        this.birthdate = birthdate;
-        this.password = password;
-        this.creditCard = creditCard;
-        this.booking = booking;
-        this.comment = comment;
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }    
 
     public String getEmail() {
         return email;

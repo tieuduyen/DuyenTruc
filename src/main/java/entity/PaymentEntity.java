@@ -1,5 +1,6 @@
 package entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +13,13 @@ import javax.persistence.Table;
 public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PaymentID")
+    private int id;
     
+    @Column(name = "Price")
     private Double price;
     
-     @OneToOne(mappedBy = "payment")
+    @OneToOne(mappedBy = "payment")
     private CreditCardEntity creditCard;
      
      @OneToOne(mappedBy = "payment")
@@ -24,10 +28,12 @@ public class PaymentEntity {
     public PaymentEntity() {
     }
 
-    public PaymentEntity(Double price, CreditCardEntity creditCard, BookingEntity booking) {
-        this.price = price;
-        this.creditCard = creditCard;
-        this.booking = booking;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Double getPrice() {

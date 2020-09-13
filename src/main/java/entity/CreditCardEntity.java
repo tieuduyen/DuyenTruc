@@ -1,11 +1,13 @@
 package entity;
 
 import java.time.LocalDate;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -13,30 +15,43 @@ import javax.persistence.Table;
 public class CreditCardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CreditCardID")
+    private int id;
     
+    @Column(name = "CreditCardType")
     private String creditCardType;
+    
+    @Column(name = "CreditCardNumber")
     private String creditCardNumber;
+    
+    @Column(name = "CardholdersName")
     private String cardholdersName;
+    
+    @Column(name = "ExpirationDate")
     private LocalDate expirationDate;
+    
+    @Column(name = "Surplus")
     private Double surplus;
     
-    @OneToOne(mappedBy = "creditcard")
-    private PaymentEntity payment;
-    
-    @OneToOne(mappedBy = "creditcard")
+    //Implement relationships with Customer 1-1
+    @OneToOne(mappedBy = "creditCard")
     private CustomerEntity customer;
+    
+    //Setup relationshipss with Payment
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private PaymentEntity payment;//(3)
+
 
     public CreditCardEntity() {
     }
 
-    public CreditCardEntity(String creditCardType, String creditCardNumber, String cardholdersName, LocalDate expirationDate, Double surplus, PaymentEntity payment, CustomerEntity customer) {
-        this.creditCardType = creditCardType;
-        this.creditCardNumber = creditCardNumber;
-        this.cardholdersName = cardholdersName;
-        this.expirationDate = expirationDate;
-        this.surplus = surplus;
-        this.payment = payment;
-        this.customer = customer;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCreditCardType() {

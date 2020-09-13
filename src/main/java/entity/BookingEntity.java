@@ -1,11 +1,13 @@
 package entity;
 
 import java.time.LocalDate;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -13,14 +15,21 @@ import javax.persistence.Table;
 public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BookingID")
+    private int id;
     
+    @Column(name = "BookingDate")
     private LocalDate bookingDate;
     
-    @OneToOne(mappedBy = "booking")
-    private PaymentEntity payment;
-    
-    @OneToOne(mappedBy = "booking")
-    private BookingDetailsEntity bookingDetails;
+    //Setup relationshipss with Payment
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private PaymentEntity payment;//
+   
+    //Setup relationshipss with bookingDetails
+    @OneToOne()
+    @PrimaryKeyJoinColumn
+    private BookingDetailsEntity bookingDetails;//
     
     @OneToOne(mappedBy = "booking")
     private CustomerEntity customer;
@@ -28,13 +37,14 @@ public class BookingEntity {
     public BookingEntity() {
     }
 
-    public BookingEntity(LocalDate bookingDate, PaymentEntity payment, BookingDetailsEntity bookingDetails, CustomerEntity customer) {
-        this.bookingDate = bookingDate;
-        this.payment = payment;
-        this.bookingDetails = bookingDetails;
-        this.customer = customer;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    } 
+    
     public LocalDate getBookingDate() {
         return bookingDate;
     }

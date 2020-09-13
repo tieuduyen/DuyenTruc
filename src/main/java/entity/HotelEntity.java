@@ -17,48 +17,54 @@ import javax.persistence.Table;
 public class HotelEntity { 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "HotelID")
+    private int id;
     
-    @Column(name="hotelName")
+    @Column(name="HotelName")
     private String name;
-    @Column(name="hotelPhone")
+    
+    @Column(name="HotelPhone")
     private String phone;
-    @Column(name="hotelEmail")
+    
+    @Column(name="HotelEmail")
     private String email;
-    @Column(name="hotelImages")
+    
+    @Column(name="HotelImages")
     private String images;
+    
+    @Column(name="Rate")
     private Double rate;
+    
     @Column(name="HotelAddress")
     private String address;
+    
+    @Column(name="Promotion")
     private String promotion;
     
+    // n-1 voi bang City
     @ManyToOne
     @JoinColumn(name="CityID")//khóa ngoại 
     private CityEntity city;
     
+    // 1-n voi bang RoomType
+    @OneToMany(mappedBy = "hotel",fetch = FetchType.LAZY)
+    List<RoomTypeEntity> roomTypeList;
+    
     @OneToMany(mappedBy = "hotel",fetch = FetchType.LAZY)
     List<ServiceEntity> serviceList;
     
-    @OneToMany(mappedBy = "hotel",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hotel",fetch = FetchType.LAZY)
     List<CommentEntity> commentList;
-    
-    @OneToMany(mappedBy = "hotel",fetch = FetchType.EAGER)
-    List<RoomTypeEntity> roomTypeList;
 
     public HotelEntity() {
     }
 
-    public HotelEntity(String name, String phone, String email, String images, Double rate, String address, String promotion, CityEntity city, List<ServiceEntity> serviceList, List<CommentEntity> commentList, List<RoomTypeEntity> roomTypeList) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.images = images;
-        this.rate = rate;
-        this.address = address;
-        this.promotion = promotion;
-        this.city = city;
-        this.serviceList = serviceList;
-        this.commentList = commentList;
-        this.roomTypeList = roomTypeList;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

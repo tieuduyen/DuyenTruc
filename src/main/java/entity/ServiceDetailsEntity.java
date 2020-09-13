@@ -1,9 +1,8 @@
 package entity;
 
 import java.time.LocalDate;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,31 +10,38 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="servicedetails")
+@Table(name="serviceDetails")
 public class ServiceDetailsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ServiceDetailsID")
+    private int id;
     
+    @Column(name = "Time")
     private LocalDate time;
+    
+    @Column(name = "NumberOfPeople")
     private int numberOfPeople;
     
-    @OneToOne(mappedBy = "servicedetails")
+    //Implement relationships with Service 1-1
+    @OneToOne(mappedBy = "serviceDetails") //serviceDetails(**) ben ServiceEntity
     private ServiceEntity service;
     
+    // n-1 (ServiceDetails-BookingDetails)
     @ManyToOne
     @JoinColumn(name="BookingDetailsID")//khóa ngoại 
-    private BookingDetailsEntity bookingDetail;
+    private BookingDetailsEntity bookingDetails;
 
     public ServiceDetailsEntity() {
     }
 
-    public ServiceDetailsEntity(LocalDate time, int numberOfPeople, ServiceEntity service, BookingDetailsEntity bookingDetail) {
-        this.time = time;
-        this.numberOfPeople = numberOfPeople;
-        this.service = service;
-        this.bookingDetail = bookingDetail;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+   
     public LocalDate getTime() {
         return time;
     }
@@ -60,13 +66,12 @@ public class ServiceDetailsEntity {
         this.service = service;
     }
 
-    public BookingDetailsEntity getBookingDetail() {
-        return bookingDetail;
+    public BookingDetailsEntity getBookingDetails() {
+        return bookingDetails;
     }
 
-    public void setBookingDetail(BookingDetailsEntity bookingDetail) {
-        this.bookingDetail = bookingDetail;
+    public void setBookingDetails(BookingDetailsEntity bookingDetails) {
+        this.bookingDetails = bookingDetails;
     }
-    
-    
+   
 }

@@ -2,6 +2,7 @@ package entity;
 
 import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,38 +13,47 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="bookingdetails")
+@Table(name="bookingDetails")
 public class BookingDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BookingDetailsID")
+    private int id;
     
+    @Column(name = "NumberOfPeople")
     private int numberOfPeople;
+    
+    @Column(name = "NumberOfRoom")
     private int numberOfRoom;
+    
+    @Column(name = "Price")
     private Double price;
+    
+    @Column(name = "CheckInDate")
     private LocalDate checkInDate;
+    
+    @Column(name = "CheckOutDate")
     private LocalDate checkOutDate;
     
-    @OneToOne(mappedBy = "bookingdetails")
+    @OneToOne(mappedBy = "bookingDetails")
     private BookingEntity booking;
-     
-    @OneToMany(mappedBy = "bookingdetails",fetch = FetchType.LAZY)
+    
+    // 1-n (BookingDetails-ServiceDetails)
+    @OneToMany(mappedBy = "bookingDetails",fetch = FetchType.LAZY)
     List<ServiceDetailsEntity> serviceDetailsList;
     
-    @OneToMany(mappedBy = "bookingdetails",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bookingDetails",fetch = FetchType.LAZY)
     List<RoomTypeEntity> roomTypeList;
 
     public BookingDetailsEntity() {
     }
 
-    public BookingDetailsEntity(int numberOfPeople, int numberOfRoom, Double price, LocalDate checkInDate, LocalDate checkOutDate, BookingEntity booking, List<ServiceDetailsEntity> serviceDetailsList, List<RoomTypeEntity> roomTypeList) {
-        this.numberOfPeople = numberOfPeople;
-        this.numberOfRoom = numberOfRoom;
-        this.price = price;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.booking = booking;
-        this.serviceDetailsList = serviceDetailsList;
-        this.roomTypeList = roomTypeList;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getNumberOfPeople() {

@@ -17,12 +17,16 @@ import javax.persistence.Table;
 public class RoomTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RoomTypeID")
+    private int id;
     
     private String roomTypeName;
-    private String description;
+    private String descriptions;
     private String size;
+    
     @Column(name="RoomImages")
     private String images;
+    
     private Double price;
     
     @ManyToOne
@@ -36,14 +40,12 @@ public class RoomTypeEntity {
     public RoomTypeEntity() {
     }
 
-    public RoomTypeEntity(String roomTypeName, String description, String size, String images, Double price, HotelEntity hotel, BookingDetailsEntity bookingDetails) {
-        this.roomTypeName = roomTypeName;
-        this.description = description;
-        this.size = size;
-        this.images = images;
-        this.price = price;
-        this.hotel = hotel;
-        this.bookingDetails = bookingDetails;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRoomTypeName() {
@@ -54,12 +56,12 @@ public class RoomTypeEntity {
         this.roomTypeName = roomTypeName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptions() {
+        return descriptions;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
     }
 
     public String getSize() {
