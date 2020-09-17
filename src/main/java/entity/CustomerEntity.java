@@ -46,9 +46,8 @@ public class CustomerEntity {
     private CreditCardEntity creditCard;//(1)
     
      //Setup relationshipss with CreditCard
-    @OneToOne()
-    @PrimaryKeyJoinColumn
-    private BookingEntity booking;//(2)
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    List<BookingEntity> bookingList;
     
     @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     List<CommentEntity> comment;
@@ -120,12 +119,12 @@ public class CustomerEntity {
         this.creditCard = creditCard;
     }
 
-    public BookingEntity getBooking() {
-        return booking;
+    public List<BookingEntity> getBookingList() {
+        return bookingList;
     }
 
-    public void setBooking(BookingEntity booking) {
-        this.booking = booking;
+    public void setBookingList(List<BookingEntity> bookingList) {
+        this.bookingList = bookingList;
     }
 
     public List<CommentEntity> getComment() {

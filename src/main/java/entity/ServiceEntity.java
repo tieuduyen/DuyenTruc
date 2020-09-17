@@ -72,7 +72,5 @@ public class ServiceEntity {
 
     public void setHotel(HotelEntity hotel) {
         this.hotel = hotel;
-    }
-    
-    
+    }  
 }

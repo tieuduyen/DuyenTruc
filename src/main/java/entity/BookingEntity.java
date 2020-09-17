@@ -6,32 +6,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="booking")
+@Table(name = "booking")
 public class BookingEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BookingID")
     private int id;
-    
+
     @Column(name = "BookingDate")
     private LocalDate bookingDate;
-    
+
     //Setup relationshipss with Payment
     @OneToOne()
     @PrimaryKeyJoinColumn
     private PaymentEntity payment;//
-   
+
     //Setup relationshipss with bookingDetails
     @OneToOne()
     @PrimaryKeyJoinColumn
     private BookingDetailsEntity bookingDetails;//
-    
-    @OneToOne(mappedBy = "booking")
+
+    // n-1 voi bang Rate
+    @ManyToOne
+    @JoinColumn(name = "CustomerID")//khóa ngoại 
     private CustomerEntity customer;
 
     public BookingEntity() {
@@ -43,8 +48,8 @@ public class BookingEntity {
 
     public void setId(int id) {
         this.id = id;
-    } 
-    
+    }
+
     public LocalDate getBookingDate() {
         return bookingDate;
     }
@@ -76,6 +81,5 @@ public class BookingEntity {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
-    
-    
+
 }

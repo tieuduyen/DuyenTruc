@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,10 +18,12 @@ public class PaymentEntity {
     @Column(name = "PaymentID")
     private int id;
     
-    @Column(name = "Price")
-    private Double price;
+    @Column(name = "Amount")
+    private Double amount;
     
-    @OneToOne(mappedBy = "payment")
+        // n-1 voi bang Rate
+    @ManyToOne
+    @JoinColumn(name="CreditCardID")//khóa ngoại 
     private CreditCardEntity creditCard;
      
      @OneToOne(mappedBy = "payment")
@@ -35,13 +39,13 @@ public class PaymentEntity {
     public void setId(int id) {
         this.id = id;
     }
-
-    public Double getPrice() {
-        return price;
+    
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public CreditCardEntity getCreditCard() {

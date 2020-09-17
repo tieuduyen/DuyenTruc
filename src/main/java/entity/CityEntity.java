@@ -21,6 +21,9 @@ public class CityEntity {
     @Column(name = "CityName")
     private String name;
     
+    @Column(name = "CityImages")
+    private String cityImages;
+    
     @OneToMany(mappedBy = "city",fetch = FetchType.LAZY)
     List<HotelEntity> hotelList;
 
@@ -43,6 +46,14 @@ public class CityEntity {
         this.name = name;
     }
 
+    public String getCityImages() {
+        return cityImages;
+    }
+
+    public void setCityImages(String cityImages) {
+        this.cityImages = cityImages;
+    }
+    
     public List<HotelEntity> getHotelList() {
         return hotelList;
     }

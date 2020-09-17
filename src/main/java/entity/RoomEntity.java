@@ -1,43 +1,49 @@
 package entity;
 
-import java.util.List;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="roomtype")
-public class RoomTypeEntity {
+@Table(name="room")
+public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RoomTypeID")
-    private int id;
+    @Column(name = "RoomID")
+    private int id;   
     
-    private String roomTypeName;
+    @Column(name = "RoomName")
+    private String name;
+    
+    @Column(name = "Descriptions")
     private String descriptions;
+    
+    @Column(name = "Size")
     private String size;
     
     @Column(name="RoomImages")
     private String images;
     
+    @Column(name="Price")
     private Double price;
     
     @ManyToOne
     @JoinColumn(name="HotelID")//khóa ngoại 
     private HotelEntity hotel;
     
+    // n-1 voi bang BookingDetails
     @ManyToOne
     @JoinColumn(name="BookingDetailsID")//khóa ngoại 
     private BookingDetailsEntity bookingDetails;
-
-    public RoomTypeEntity() {
+    
+    public RoomEntity() {
     }
 
     public int getId() {
@@ -48,14 +54,13 @@ public class RoomTypeEntity {
         this.id = id;
     }
 
-    public String getRoomTypeName() {
-        return roomTypeName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoomTypeName(String roomTypeName) {
-        this.roomTypeName = roomTypeName;
+    public void setName(String name) {
+        this.name = name;
     }
-
     public String getDescriptions() {
         return descriptions;
     }
@@ -104,5 +109,9 @@ public class RoomTypeEntity {
         this.bookingDetails = bookingDetails;
     }
     
-    
+    public String getPriceFormatted(){
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat priceFormat = NumberFormat.getCurrencyInstance(localeVN);
+        return priceFormat.format(price);
+    }
 }

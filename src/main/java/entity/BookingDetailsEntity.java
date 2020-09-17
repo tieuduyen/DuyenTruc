@@ -23,7 +23,7 @@ public class BookingDetailsEntity {
     @Column(name = "NumberOfPeople")
     private int numberOfPeople;
     
-    @Column(name = "NumberOfRoom")
+    @Column(name = "NumberOfRooms")
     private int numberOfRoom;
     
     @Column(name = "Price")
@@ -43,7 +43,7 @@ public class BookingDetailsEntity {
     List<ServiceDetailsEntity> serviceDetailsList;
     
     @OneToMany(mappedBy = "bookingDetails",fetch = FetchType.LAZY)
-    List<RoomTypeEntity> roomTypeList;
+    List<RoomEntity> roomList;
 
     public BookingDetailsEntity() {
     }
@@ -112,12 +112,12 @@ public class BookingDetailsEntity {
         this.serviceDetailsList = serviceDetailsList;
     }
 
-    public List<RoomTypeEntity> getRoomTypeList() {
-        return roomTypeList;
+    public List<RoomEntity> getRoomList() {
+        return roomList;
     }
 
-    public void setRoomTypeList(List<RoomTypeEntity> roomTypeList) {
-        this.roomTypeList = roomTypeList;
+    public void setRoomList(List<RoomEntity> roomList) {
+        this.roomList = roomList;
     }
     
     

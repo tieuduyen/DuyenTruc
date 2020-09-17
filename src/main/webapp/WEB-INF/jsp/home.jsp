@@ -7,20 +7,15 @@
         <title>List All Hotel Page</title>
     </head>
     <body>
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>City Name</th>
-                </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="city" items="${city}">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/view/${city.name}">${city.name}</a></td>
-                </tr>
-            
-        </c:forEach>
-                </tbody>
-    </table>
-</body>
+
+        <jsp:include page="header.jsp" />
+        <jsp:include page="slide.jsp" />
+        <div style="padding-top: 400px;">
+            <c:forEach var="city" items="${cityList}">
+                <a href="${pageContext.request.contextPath}/city/${city.name}"><p>${city.name}</p></a>
+            </c:forEach>
+        </div>
+        <jsp:include page="footer.jsp" />
+    </body>
+
 </html>
