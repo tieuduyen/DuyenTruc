@@ -40,7 +40,15 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `BookingDate`, `CustomerID`) VALUES
-(1, '2020-09-10', 1);
+(1, '2020-08-15'),
+(2, '2019-05-05'),
+(3, '2020-06-10'),
+(4, '2018-06-30'),
+(5, '2020-08-20'),
+(6, '2020-09-01'),
+(7, '2020-09-10'),
+(8, '2020-10-01'),
+(9, '2020-11-10');
 
 -- --------------------------------------------------------
 
@@ -63,7 +71,15 @@ CREATE TABLE `bookingdetails` (
 --
 
 INSERT INTO `bookingdetails` (`BookingDetailsID`, `NumberOfPeople`, `NumberOfRooms`, `Price`, `CheckInDate`, `CheckOutDate`, `BookingID`) VALUES
-(1, 2, 1, 2000000, '2020-09-07', '2020-09-09', NULL);
+(1, 2, 1, 2000000, '2020-09-07', '2020-09-09',1),
+(2,4,2,5500000,'2019-05-19','2019-05-22',2),
+(3,2,1,250000,'2020-06-15','2020-06-16',3),
+(4,8,3,5000000,'2018-07-18','2018-07-20',4),
+(5,2,1,400000,'2020-08-20','2020-08-21',5),
+(6,5,2,2000000,'2020-09-07','2020-09-10',6),
+(7,6,2,2000000,'2020-09-20','2020-09-25',7),
+(8,2,1,200000,'2020-10-11','2020-10-12',8),
+(9,2,1,280000,'2020-11-21','2020-11-22',9);
 
 -- --------------------------------------------------------
 
@@ -240,35 +256,52 @@ INSERT INTO `rate` (`RateID`, `TypeRate`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `room`
+-- Cấu trúc bảng cho bảng `roomtype`
 --
 
-CREATE TABLE `room` (
-  `RoomID` int(11) NOT NULL,
-  `RoomName` varchar(50) DEFAULT NULL,
+CREATE TABLE `roomType` (
+  `RoomTypeID` int(11) NOT NULL,
+  `RoomTypeName` varchar(50) DEFAULT NULL,
   `Descriptions` varchar(50) DEFAULT NULL,
   `Size` varchar(20) DEFAULT NULL,
   `RoomImages` varchar(50) DEFAULT NULL,
   `Price` double DEFAULT NULL,
   `HotelID` int(11) DEFAULT NULL,
-  `BookingDetailsID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `room`
+-- Đang đổ dữ liệu cho bảng `roomtype`
 --
 
-INSERT INTO `room` (`RoomID`, `RoomName`, `Descriptions`, `Size`, `RoomImages`, `Price`, `HotelID`, `BookingDetailsID`) VALUES
-(1, 'STANDARD', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'hachico_standard.jpg', 500000, 1, 1),
-(2, 'SUPERIOR', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'hachico_spuerior.jpg', 600000, 1, 1),
-(3, 'DELUXE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'hachico_deluxe.jpg', 900000, 1, 1),
-(4, 'LUXURY', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'hachico_luxury.jpg', 1000000, 1, 1),
-(5, 'SUPPERIOR DOUBLE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 400000, 3, 1),
-(6, 'SUPPERIOR TWINS', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 700000, 3, 1),
-(7, 'DELUXE DOUBLE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1000000, 3, 1),
-(8, 'DELUXE TWINS', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1500000, 3, 1);
+INSERT INTO `roomType` (`RoomTypeID`, `RoomTypeName`, `Descriptions`, `Size`, `RoomImages`, `Price`, `HotelID`) VALUES
+(1, 'STANDARD', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 500000, 1),
+(2, 'SUPERIOR', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 600000, 2),
+(3, 'DELUXE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 900000, 3),
+(4, 'LUXURY', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1000000, 4),
+(5, 'SUPPERIOR DOUBLE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 400000, 5),
+(6, 'SUPPERIOR TWINS', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 700000, 6),
+(7, 'DELUXE DOUBLE', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1000000, 7),
+(8, 'DELUXE TWINS', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1500000, 8),
+(9, 'DELUXE TWINS', 'Phòng nghỉ thông thoáng, cao cấp sang trọng', '2 nguoi', 'anh1.png', 1500000, 9);
 
 -- --------------------------------------------------------
+
+CREATE TABLE room (
+	roomID int(11) not null,
+    RoomTypeID int(11) NOT NULL,
+    BookingDetailsID int(11) NOT NULL
+);
+
+insert into room (roomID,roomTypeID,bookingDetailsID)
+value (1,1,1),
+(2,2,2),
+(3,3,3),
+(4,4,4),
+(5,5,5),
+(6,6,6),
+(7,7,7),
+(8,8,8),
+(9,9,9);
 
 --
 -- Cấu trúc bảng cho bảng `service`
@@ -449,11 +482,14 @@ ALTER TABLE `rate`
 --
 -- Chỉ mục cho bảng `room`
 --
-ALTER TABLE `room`
-  ADD PRIMARY KEY (`RoomID`),
-  ADD KEY `fk_roomType_hotel` (`HotelID`),
-  ADD KEY `fk_roomType_bookingDetails` (`BookingDetailsID`);
+ALTER TABLE `roomtype`
+  ADD PRIMARY KEY (`RoomTypeID`),
+  ADD KEY `fk_roomType_hotel` (`HotelID`);
 
+alter table `room`
+add primary key (`roomID`),
+add key `fk_room_roomTypeID` (`RoomtypeID`),
+add key `fk_room_BookingDetailsID` (`bookingDetailsID`);
 --
 -- Chỉ mục cho bảng `service`
 --
@@ -551,6 +587,8 @@ ALTER TABLE `rate`
 ALTER TABLE `room`
   MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
+ALTER TABLE `roomtype`
+  MODIFY `RoomTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `service`
 --
@@ -614,11 +652,13 @@ ALTER TABLE `payment`
 
 --
 -- Các ràng buộc cho bảng `room`
---
-ALTER TABLE `room`
-  ADD CONSTRAINT `fk_roomType_bookingDetails` FOREIGN KEY (`BookingDetailsID`) REFERENCES `bookingdetails` (`BookingDetailsID`),
+
+ALTER TABLE `roomtype`
   ADD CONSTRAINT `fk_roomType_hotel` FOREIGN KEY (`HotelID`) REFERENCES `hotel` (`HotelID`);
 
+alter table `room`
+add constraint `fk_room_roomTypeID`  foreign key(`RoomtypeID`) references `roomType` (`RoomtypeID`),
+add constraint `fk_room_BookingDetailsID`  foreign key (`bookingDetailsID`)references `bookingdetails` (`bookingDetailsID`) ;
 --
 -- Các ràng buộc cho bảng `service`
 --
