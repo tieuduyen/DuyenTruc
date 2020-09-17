@@ -33,11 +33,24 @@ public class RoomTypeEntity {
     @JoinColumn(name="HotelID")//khóa ngoại 
     private HotelEntity hotel;
     
-    @ManyToOne
-    @JoinColumn(name="BookingDetailsID")//khóa ngoại 
-    private BookingDetailsEntity bookingDetails;
+    @OneToMany(mappedBy = "roomtype",fetch = FetchType.LAZY)
+    List<BookingDetailsEntity> bookingDetailsList;
+    
+    @OneToMany(mappedBy = "roomtype",fetch = FetchType.LAZY)
+    List<RoomEntity> roomList;
 
     public RoomTypeEntity() {
+    }
+
+    public RoomTypeEntity(int id, String roomTypeName, String descriptions, String size, String images, Double price, HotelEntity hotel, List<BookingDetailsEntity> bookingDetailsList) {
+        this.id = id;
+        this.roomTypeName = roomTypeName;
+        this.descriptions = descriptions;
+        this.size = size;
+        this.images = images;
+        this.price = price;
+        this.hotel = hotel;
+        this.bookingDetailsList = bookingDetailsList;
     }
 
     public int getId() {
@@ -96,13 +109,14 @@ public class RoomTypeEntity {
         this.hotel = hotel;
     }
 
-    public BookingDetailsEntity getBookingDetails() {
-        return bookingDetails;
+    public List<BookingDetailsEntity> getBookingDetailsList() {
+        return bookingDetailsList;
     }
 
-    public void setBookingDetails(BookingDetailsEntity bookingDetails) {
-        this.bookingDetails = bookingDetails;
+    public void setBookingDetailsList(List<BookingDetailsEntity> bookingDetailsList) {
+        this.bookingDetailsList = bookingDetailsList;
     }
+
     
     
 }
