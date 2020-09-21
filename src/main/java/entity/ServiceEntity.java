@@ -1,3 +1,4 @@
+
 package entity;
 
 import javax.persistence.Column;
@@ -74,3 +75,4 @@ public class ServiceEntity {
         this.hotel = hotel;
     }  
 }
+

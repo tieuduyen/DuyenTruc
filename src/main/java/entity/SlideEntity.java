@@ -1,4 +1,3 @@
-
 package entity;
 
 import javax.persistence.Column;
@@ -9,23 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="slideshow")
+@Table(name = "slide")
 public class SlideEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "slideID")
+    @Column(name = "SlideID")
     private int id;
     
-    private String slideName;
-    private String note;
+    @Column(name = "SlideImages")
+    private String images;
+    
+     @Column(name = "SlideTitle")
+    private String title;
 
     public SlideEntity() {
-    }
-
-    public SlideEntity(int id, String slideName,String note) {
-        this.id = id;
-        this.slideName = slideName;
-        this.note = note;
     }
 
     public int getId() {
@@ -36,22 +32,22 @@ public class SlideEntity {
         this.id = id;
     }
 
-    public String getSlideName() {
-        return slideName;
+    public String getImages() {
+        return images;
     }
 
-    public void setSlideName(String slideName) {
-        this.slideName = slideName;
+    public void setImages(String images) {
+        this.images = images;
     }
 
-    public String getNote() {
-        return note;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setTitle(String title) {
+        this.title = title;
     }
-
     
     
+
 }

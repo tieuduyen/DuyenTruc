@@ -1,6 +1,8 @@
 package entity;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,44 +15,37 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="roomtype")
+@Table(name="roomType")
 public class RoomTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RoomTypeID")
     private int id;
     
-    private String roomTypeName;
+   @Column(name = "RoomTypeName")
+    private String name;
+    
+    @Column(name = "Descriptions")
     private String descriptions;
+    
+    @Column(name = "Size")
     private String size;
     
     @Column(name="RoomImages")
     private String images;
     
+    @Column(name="Price")
     private Double price;
     
     @ManyToOne
     @JoinColumn(name="HotelID")//khóa ngoại 
     private HotelEntity hotel;
     
-    @OneToMany(mappedBy = "roomtype",fetch = FetchType.LAZY)
-    List<BookingDetailsEntity> bookingDetailsList;
-    
-    @OneToMany(mappedBy = "roomtype",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "roomType",fetch = FetchType.LAZY)
     List<RoomEntity> roomList;
+    
 
     public RoomTypeEntity() {
-    }
-
-    public RoomTypeEntity(int id, String roomTypeName, String descriptions, String size, String images, Double price, HotelEntity hotel, List<BookingDetailsEntity> bookingDetailsList) {
-        this.id = id;
-        this.roomTypeName = roomTypeName;
-        this.descriptions = descriptions;
-        this.size = size;
-        this.images = images;
-        this.price = price;
-        this.hotel = hotel;
-        this.bookingDetailsList = bookingDetailsList;
     }
 
     public int getId() {
@@ -61,12 +56,12 @@ public class RoomTypeEntity {
         this.id = id;
     }
 
-    public String getRoomTypeName() {
-        return roomTypeName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoomTypeName(String roomTypeName) {
-        this.roomTypeName = roomTypeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescriptions() {
@@ -109,14 +104,17 @@ public class RoomTypeEntity {
         this.hotel = hotel;
     }
 
-    public List<BookingDetailsEntity> getBookingDetailsList() {
-        return bookingDetailsList;
+    public List<RoomEntity> getRoomList() {
+        return roomList;
     }
 
-    public void setBookingDetailsList(List<BookingDetailsEntity> bookingDetailsList) {
-        this.bookingDetailsList = bookingDetailsList;
+    public void setRoomList(List<RoomEntity> roomList) {
+        this.roomList = roomList;
     }
 
-    
-    
+   public String getPriceFormatted(){
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat priceFormat = NumberFormat.getCurrencyInstance(localeVN);
+        return priceFormat.format(price);
+    }  
 }

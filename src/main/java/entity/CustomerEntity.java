@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,48 +13,69 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
-@Table(name="customer")
+@Table(name = "customer")
 public class CustomerEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CustomerID")
     private int id;
-    
-    @Column(name="Email")
+
+    @Column(name = "Email")
     private String email;
-    
-    @Column(name="CustomerName")
+
+    @Column(name = "CustomerName")
     private String name;
-    
-    @Column(name="phone")
+
+    @Column(name = "phone")
     private String phone;
-    
-    @Column(name="Sex")
+
+    @Column(name = "Sex")
     private String sex;
-    
-    @Column(name="Birthdate")
+
+    @Column(name = "Birthdate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
-    
-    @Column(name="Password")
+
+    @Column(name = "Password")
     private String password;
-    
-        
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    //Implement relationships with CreditCard 1-1
+    @OneToOne(mappedBy = "customer")
+    private CreditCardEntity creditCard;
+
     //Setup relationshipss with CreditCard
-    @OneToOne()
-    @PrimaryKeyJoinColumn
-    private CreditCardEntity creditCard;//(1)
-    
-     //Setup relationshipss with CreditCard
-    @OneToOne()
-    @PrimaryKeyJoinColumn
-    private BookingEntity booking;//(2)
-    
-    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    List<BookingEntity> bookingList;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     List<CommentEntity> comment;
 
     public CustomerEntity() {
+
+    }
+
+    public CustomerEntity(int id, String email, String name, String phone, String sex, LocalDate birthdate, String password, String username, boolean enabled) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.sex = sex;
+        this.birthdate = birthdate;
+        this.password = password;
+        this.username = username;
+        this.enabled = enabled;
     }
 
     public int getId() {
@@ -62,7 +84,7 @@ public class CustomerEntity {
 
     public void setId(int id) {
         this.id = id;
-    }    
+    }
 
     public String getEmail() {
         return email;
@@ -112,6 +134,22 @@ public class CustomerEntity {
         this.password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public CreditCardEntity getCreditCard() {
         return creditCard;
     }
@@ -120,12 +158,12 @@ public class CustomerEntity {
         this.creditCard = creditCard;
     }
 
-    public BookingEntity getBooking() {
-        return booking;
+    public List<BookingEntity> getBookingList() {
+        return bookingList;
     }
 
-    public void setBooking(BookingEntity booking) {
-        this.booking = booking;
+    public void setBookingList(List<BookingEntity> bookingList) {
+        this.bookingList = bookingList;
     }
 
     public List<CommentEntity> getComment() {
@@ -135,6 +173,12 @@ public class CustomerEntity {
     public void setComment(List<CommentEntity> comment) {
         this.comment = comment;
     }
-    
-    
+
+    public String getBirthDateFormatted() {
+        DateTimeFormatter birthDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return birthDateFormat.format(birthdate);
+    }
+
+
+
 }

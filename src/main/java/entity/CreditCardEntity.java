@@ -1,17 +1,21 @@
+
 package entity;
 
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="creditcard")
+@Table(name="creditCard")
 public class CreditCardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,15 +37,14 @@ public class CreditCardEntity {
     @Column(name = "Surplus")
     private Double surplus;
     
-    //Implement relationships with Customer 1-1
-    @OneToOne(mappedBy = "creditCard")
-    private CustomerEntity customer;
     
-    //Setup relationshipss with Payment
     @OneToOne()
     @PrimaryKeyJoinColumn
-    private PaymentEntity payment;//(3)
-
+    private CustomerEntity customer;//(1)
+    
+    //Setup relationshipss with Payment
+    @OneToMany(mappedBy = "creditCard",fetch = FetchType.LAZY)
+    List<PaymentEntity> paymentList;
 
     public CreditCardEntity() {
     }
@@ -94,12 +97,12 @@ public class CreditCardEntity {
         this.surplus = surplus;
     }
 
-    public PaymentEntity getPayment() {
-        return payment;
+    public List<PaymentEntity> getPaymentList() {
+        return paymentList;
     }
 
-    public void setPayment(PaymentEntity payment) {
-        this.payment = payment;
+    public void setPaymentList(List<PaymentEntity> paymentList) {
+        this.paymentList = paymentList;
     }
 
     public CustomerEntity getCustomer() {
@@ -109,6 +112,6 @@ public class CreditCardEntity {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
-    
+
     
 }

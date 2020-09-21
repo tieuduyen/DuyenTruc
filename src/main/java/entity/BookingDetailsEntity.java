@@ -1,3 +1,4 @@
+
 package entity;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class BookingDetailsEntity {
     @Column(name = "NumberOfPeople")
     private int numberOfPeople;
     
-    @Column(name = "NumberOfRoom")
+    @Column(name = "NumberOfRooms")
     private int numberOfRoom;
     
     @Column(name = "Price")
@@ -37,21 +38,93 @@ public class BookingDetailsEntity {
     @Column(name = "CheckOutDate")
     private LocalDate checkOutDate;
     
-    @OneToOne(mappedBy = "bookingDetails")
+    // n-1 voi bang Rate
+    @ManyToOne
+    @JoinColumn(name = "BookingID")//khóa ngoại 
     private BookingEntity booking;
     
     // 1-n (BookingDetails-ServiceDetails)
     @OneToMany(mappedBy = "bookingDetails",fetch = FetchType.LAZY)
     List<ServiceDetailsEntity> serviceDetailsList;
     
-    @ManyToOne
-    @JoinColumn(name="RoomID")//khóa ngoại 
-    private RoomEntity room;
-    
     @OneToMany(mappedBy = "bookingDetails",fetch = FetchType.LAZY)
-    List<BookingDetailsEntity> bookingDetailsList;
+    List<RoomEntity> roomList;
 
     public BookingDetailsEntity() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    public int getNumberOfRoom() {
+        return numberOfRoom;
+    }
+
+    public void setNumberOfRoom(int numberOfRoom) {
+        this.numberOfRoom = numberOfRoom;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(LocalDate checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public void setCheckOutDate(LocalDate checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    public BookingEntity getBooking() {
+        return booking;
+    }
+
+    public void setBooking(BookingEntity booking) {
+        this.booking = booking;
+    }
+
+
+
+    public List<ServiceDetailsEntity> getServiceDetailsList() {
+        return serviceDetailsList;
+    }
+
+    public void setServiceDetailsList(List<ServiceDetailsEntity> serviceDetailsList) {
+        this.serviceDetailsList = serviceDetailsList;
+    }
+
+    public List<RoomEntity> getRoomList() {
+        return roomList;
+    }
+
+    public void setRoomList(List<RoomEntity> roomList) {
+        this.roomList = roomList;
     }
     
     

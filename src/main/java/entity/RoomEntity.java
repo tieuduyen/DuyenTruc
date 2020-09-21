@@ -1,5 +1,8 @@
+
 package entity;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,23 +18,37 @@ public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RoomID")
-    private int id;
+    private int id;   
     
+    @Column(name = "RoomName")
+    private String name;
+    
+    @Column(name = "Descriptions")
+    private String descriptions;
+    
+    @Column(name = "Size")
+    private String size;
+    
+    @Column(name="RoomImages")
+    private String images;
+    
+    @Column(name="Price")
+    private Double price;
+    
+    
+    // n-1 voi bang RoomType
     @ManyToOne
     @JoinColumn(name="RoomTypeID")//khóa ngoại 
     private RoomTypeEntity roomType;
     
+    
+    
+    // n-1 voi bang BookingDetails
     @ManyToOne
     @JoinColumn(name="BookingDetailsID")//khóa ngoại 
     private BookingDetailsEntity bookingDetails;
-
+    
     public RoomEntity() {
-    }
-
-    public RoomEntity(int id, RoomTypeEntity roomType, BookingDetailsEntity bookingDetails) {
-        this.id = id;
-        this.roomType = roomType;
-        this.bookingDetails = bookingDetails;
     }
 
     public int getId() {
@@ -42,13 +59,46 @@ public class RoomEntity {
         this.id = id;
     }
 
-    public RoomTypeEntity getRoomType() {
-        return roomType;
+    public String getName() {
+        return name;
     }
 
-    public void setRoomType(RoomTypeEntity roomType) {
-        this.roomType = roomType;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
 
     public BookingDetailsEntity getBookingDetails() {
         return bookingDetails;
@@ -57,6 +107,20 @@ public class RoomEntity {
     public void setBookingDetails(BookingDetailsEntity bookingDetails) {
         this.bookingDetails = bookingDetails;
     }
+
+    public RoomTypeEntity getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomTypeEntity roomType) {
+        this.roomType = roomType;
+    }
+
     
     
+    public String getPriceFormatted(){
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat priceFormat = NumberFormat.getCurrencyInstance(localeVN);
+        return priceFormat.format(price);
+    }
 }

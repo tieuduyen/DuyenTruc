@@ -30,6 +30,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Footer Column -->
                 <div class="col-lg-4 footer_column">
                     <div class="footer_col">
@@ -56,11 +57,9 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </footer>
-    <script src="<c:url value="/resources/js/jquery-3.2.1.min.js" />"></script>
-    <script src="<c:url value="/resources/styles/bootstrap4/bootstrap.min.js" />"></script>
-    <script src="<c:url value="/resources/plugins/easing/easing.js" />"></script>
-    <script src="<c:url value="/resources/js/custom.js" />"></script>
+</div>
 </html>

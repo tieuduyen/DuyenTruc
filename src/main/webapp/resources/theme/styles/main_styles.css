@@ -854,7 +854,7 @@ section
 .home_slider_prev:hover .nav_path,
 .home_slider_prev:hover .nav_arrow
 {
-	fill: url(./WEB-INF/jsp/slide.jsphome_grad_prev);
+	fill: url(#home_grad_prev);
 }
 .home_slider_next:hover .nav_arrow,
 .home_slider_next:hover .nav_path

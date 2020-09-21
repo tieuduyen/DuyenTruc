@@ -32,19 +32,27 @@ public class HotelEntity {
     @Column(name="HotelImages")
     private String images;
     
-    @Column(name="Rate")
-    private Double rate;
-    
     @Column(name="HotelAddress")
     private String address;
     
     @Column(name="Promotion")
     private String promotion;
     
+    @Column(name="Introduction")
+    private String introduction;
+    
+    @Column(name="Evaluate")
+    private String evaluate;
+    
     // n-1 voi bang City
     @ManyToOne
     @JoinColumn(name="CityID")//khóa ngoại 
     private CityEntity city;
+    
+    // n-1 voi bang Rate
+    @ManyToOne
+    @JoinColumn(name="RateID")//khóa ngoại 
+    private RateEntity rate;
     
     // 1-n voi bang RoomType
     @OneToMany(mappedBy = "hotel",fetch = FetchType.LAZY)
@@ -99,14 +107,6 @@ public class HotelEntity {
         this.images = images;
     }
 
-    public Double getRate() {
-        return rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -123,6 +123,22 @@ public class HotelEntity {
         this.promotion = promotion;
     }
 
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }    
+
+    public String getEvaluate() {
+        return evaluate;
+    }
+
+    public void setEvaluate(String evaluate) {
+        this.evaluate = evaluate;
+    }
+    
     public CityEntity getCity() {
         return city;
     }
@@ -153,6 +169,15 @@ public class HotelEntity {
 
     public void setRoomTypeList(List<RoomTypeEntity> roomTypeList) {
         this.roomTypeList = roomTypeList;
+    }
+
+
+    public RateEntity getRate() {
+        return rate;
+    }
+
+    public void setRate(RateEntity rate) {
+        this.rate = rate;
     }
     
     

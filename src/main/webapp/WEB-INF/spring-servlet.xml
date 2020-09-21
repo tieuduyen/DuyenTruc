@@ -9,15 +9,43 @@
 ">
 
     <context:annotation-config />
-        <context:component-scan base-package="config,repository,controller" />
+    <context:component-scan base-package="config,repository,controller,service" />
+ 
+    <context:component-scan base-package="com.howtodoinjava" />    
+     
+    <!-- SET default mail properties -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="25"/>
+        <property name="username" value="truckt12a3@gmail.com"/>
+        <property name="password" value="trucpropro2000"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+     
+    <!-- We can have some pre-configured messagess also which are ready to send -->
+ 
+    <bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="to" value="truckt12a34@gmail.com"></property>
+        <property name="from" value="truckt12a3@gmail.com"></property>
+        <property name="subject" value="FATAL - Application crash. Save your job !!"/>
+    </bean>
         
-        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-            <property name="prefix" value="/WEB-INF/jsp/" />
-            <property name="suffix" value=".jsp" />
-        </bean>
+      
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
         
-        <mvc:resources mapping="/resources/**" location="/resources/theme/" cache-period="31556926" /> 
 
-        <mvc:default-servlet-handler />
-        <mvc:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/resources/theme/" cache-period="31556926" /> 
+
+    <mvc:default-servlet-handler />
+    <mvc:annotation-driven />
 </beans>

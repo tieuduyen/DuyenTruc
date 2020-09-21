@@ -1,3 +1,4 @@
+
 package entity;
 
 import java.util.List;
@@ -21,26 +22,13 @@ public class CityEntity {
     @Column(name = "CityName")
     private String name;
     
+    @Column(name = "CityImages")
     private String cityImages;
+    
     @OneToMany(mappedBy = "city",fetch = FetchType.LAZY)
     List<HotelEntity> hotelList;
 
     public CityEntity() {
-    }
-
-    public CityEntity(int id, String name, String cityImages, List<HotelEntity> hotelList) {
-        this.id = id;
-        this.name = name;
-        this.cityImages = cityImages;
-        this.hotelList = hotelList;
-    }
-
-    public String getCityImages() {
-        return cityImages;
-    }
-
-    public void setCityImages(String cityImages) {
-        this.cityImages = cityImages;
     }
 
     public int getId() {
@@ -59,6 +47,14 @@ public class CityEntity {
         this.name = name;
     }
 
+    public String getCityImages() {
+        return cityImages;
+    }
+
+    public void setCityImages(String cityImages) {
+        this.cityImages = cityImages;
+    }
+    
     public List<HotelEntity> getHotelList() {
         return hotelList;
     }
