@@ -3,16 +3,15 @@ package config;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -21,6 +20,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "repository")
 @EnableTransactionManagement
 public class SpringConfig {
+    
+     //@Autowired
+    //private UserDetailsServiceImpl userDetailsService;
+ 
+    //@Autowired
+    //private DataSource dataSource;
 
     @Bean
     DataSource dataSource() {
@@ -57,118 +62,11 @@ public class SpringConfig {
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         return jpaTransactionManager;
     }
-
+   
     // password encoder
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+        
     }
-
-    /*
-     @Bean
-    public JavaMailSender getJavaMailSender() 
-    {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(25);
-          
-        mailSender.setUsername("truckt12a3@gmail.com");
-        mailSender.setPassword("trucpropro2000");
-          
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-          
-        return mailSender;
-    }
-     
-    @Bean
-    public SimpleMailMessage emailTemplate()
-    {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("truckt12a34@gmail.com");
-        message.setFrom("truckt12a3@gmail.com");
-        message.setText("FATAL - Application crash. Save your job !!");
-        return message;
-    }*/
-    
-    /*
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
- 
-        mailSender.setUsername(MyConstants.MY_EMAIL);
-        mailSender.setPassword(MyConstants.MY_PASSWORD);
- 
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
- 
-        return mailSender;
-    }*/
-    
-    /*
-    // send mail
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("truckt12a3@gmail.com");
-        mailSender.setPassword("trucpropro2000");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
-    }
-    @Bean
-    public SimpleMailMessage templateSimpleMessage() {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(
-                "This is the test email template for your email:\n%s\n");
-        return message;
-    }
-    */
-    /*
-    @Bean
-	@ConditionalOnMissingBean(JavaMailSender.class)
-	JavaMailSenderImpl mailSender(MailProperties properties) {
-		JavaMailSenderImpl sender = new JavaMailSenderImpl();
-		applyProperties(properties, sender);
-		return sender;
-	}
-
-	private void applyProperties(MailProperties properties, JavaMailSenderImpl sender) {
-		sender.setHost(properties.getHost());
-		if (properties.getPort() != null) {
-			sender.setPort(properties.getPort());
-		}
-		sender.setUsername(properties.getUsername());
-		sender.setPassword(properties.getPassword());
-		sender.setProtocol(properties.getProtocol());
-		if (properties.getDefaultEncoding() != null) {
-			sender.setDefaultEncoding(properties.getDefaultEncoding().name());
-		}
-		if (!properties.getProperties().isEmpty()) {
-			sender.setJavaMailProperties(asProperties(properties.getProperties()));
-		}
-	}
-
-	private Properties asProperties(Map<String, String> source) {
-		Properties properties = new Properties();
-		properties.putAll(source);
-		return properties;
-	}
-        */
 }
