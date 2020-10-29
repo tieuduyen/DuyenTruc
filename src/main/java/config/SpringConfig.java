@@ -3,16 +3,17 @@ package config;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -21,6 +22,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "repository")
 @EnableTransactionManagement
 public class SpringConfig {
+    
+     //@Autowired
+    //private UserDetailsServiceImpl userDetailsService;
+ 
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
     DataSource dataSource() {
@@ -57,118 +64,67 @@ public class SpringConfig {
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         return jpaTransactionManager;
     }
-
+   
     // password encoder
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /*
-     @Bean
-    public JavaMailSender getJavaMailSender() 
-    {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(25);
-          
-        mailSender.setUsername("truckt12a3@gmail.com");
-        mailSender.setPassword("trucpropro2000");
-          
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-          
-        return mailSender;
-    }
-     
-    @Bean
-    public SimpleMailMessage emailTemplate()
-    {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("truckt12a34@gmail.com");
-        message.setFrom("truckt12a3@gmail.com");
-        message.setText("FATAL - Application crash. Save your job !!");
-        return message;
-    }*/
     
     /*
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
  
-        mailSender.setUsername(MyConstants.MY_EMAIL);
-        mailSender.setPassword(MyConstants.MY_PASSWORD);
+        // Sét đặt dịch vụ để tìm kiếm User trong Database.
+        // Và sét đặt PasswordEncoder.
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
  
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
- 
-        return mailSender;
-    }*/
-    
-    /*
-    // send mail
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("truckt12a3@gmail.com");
-        mailSender.setPassword("trucpropro2000");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
     }
-    @Bean
-    public SimpleMailMessage templateSimpleMessage() {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(
-                "This is the test email template for your email:\n%s\n");
-        return message;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+ 
+        http.csrf().disable();
+ 
+        // Các trang không yêu cầu login
+        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+ 
+        // Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
+        // Nếu chưa login, nó sẽ redirect tới trang /login.
+        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+ 
+        // Trang chỉ dành cho ADMIN
+        http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+ 
+        // Khi người dùng đã login, với vai trò XX.
+        // Nhưng truy cập vào trang yêu cầu vai trò YY,
+        // Ngoại lệ AccessDeniedException sẽ ném ra.
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+ 
+        // Cấu hình cho Login Form.
+        http.authorizeRequests().and().formLogin()//
+                // Submit URL của trang login
+                .loginProcessingUrl("/j_spring_security_check") // Submit URL
+                .loginPage("/login")//
+                .defaultSuccessUrl("/userAccountInfo")//
+                .failureUrl("/login?error=true")//
+                .usernameParameter("username")//
+                .passwordParameter("password")
+                // Cấu hình cho Logout Page.
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+ 
+        // Cấu hình Remember Me.
+        http.authorizeRequests().and() //
+                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
+                .tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
+ 
     }
-    */
-    /*
+ 
     @Bean
-	@ConditionalOnMissingBean(JavaMailSender.class)
-	JavaMailSenderImpl mailSender(MailProperties properties) {
-		JavaMailSenderImpl sender = new JavaMailSenderImpl();
-		applyProperties(properties, sender);
-		return sender;
-	}
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+        db.setDataSource(dataSource);
+        return db;
+    }
+*/
 
-	private void applyProperties(MailProperties properties, JavaMailSenderImpl sender) {
-		sender.setHost(properties.getHost());
-		if (properties.getPort() != null) {
-			sender.setPort(properties.getPort());
-		}
-		sender.setUsername(properties.getUsername());
-		sender.setPassword(properties.getPassword());
-		sender.setProtocol(properties.getProtocol());
-		if (properties.getDefaultEncoding() != null) {
-			sender.setDefaultEncoding(properties.getDefaultEncoding().name());
-		}
-		if (!properties.getProperties().isEmpty()) {
-			sender.setJavaMailProperties(asProperties(properties.getProperties()));
-		}
-	}
-
-	private Properties asProperties(Map<String, String> source) {
-		Properties properties = new Properties();
-		properties.putAll(source);
-		return properties;
-	}
-        */
 }

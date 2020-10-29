@@ -31,6 +31,13 @@ public class CityEntity {
     public CityEntity() {
     }
 
+    public CityEntity(int id, String name, String cityImages, List<HotelEntity> hotelList) {
+        this.id = id;
+        this.name = name;
+        this.cityImages = cityImages;
+        this.hotelList = hotelList;
+    }
+    
     public int getId() {
         return id;
     }

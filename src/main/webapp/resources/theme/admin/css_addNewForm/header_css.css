@@ -1,0 +1,49 @@
+h2{
+    padding-top: 1em;
+    padding-left: 2em;
+}
+.example1{
+    padding-top: 2em;
+    padding-bottom: 5em;
+    padding-left: 4em;
+}
+.example2{
+    padding-top: 2em;
+    padding-bottom: 5em;
+    padding-left: 4em;
+}
+form.example1 input[type=text] {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+form.example1 button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 15px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+form.example2 button {
+    float: left;
+    width: 60%;
+    padding: 10px;
+    background: grey;
+    color: white;
+    font-size: 15px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+a{
+    color: white;
+}
+

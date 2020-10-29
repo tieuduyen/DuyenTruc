@@ -1,6 +1,8 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="comment")
@@ -19,7 +22,8 @@ public class CommentEntity {
     private int id;
     
     @Column(name = "CommentDate")
-    private LocalDate commentDate;
+    @DateTimeFormat(pattern = "YYYY-MM-DD HH:MI:SS")
+    private LocalDateTime commentDate;
     
     @Column(name = "Rate")
     private Double rate;
@@ -28,8 +32,8 @@ public class CommentEntity {
     private String content;
     
     @ManyToOne
-    @JoinColumn(name="CustomerID")//khóa ngoại 
-    private CustomerEntity customer;
+    @JoinColumn(name="UserID")//khóa ngoại 
+    private UsersEntity users;
     
     @ManyToOne
     @JoinColumn(name="HotelID")//khóa ngoại 
@@ -46,13 +50,15 @@ public class CommentEntity {
         this.id = id;
     }
 
-    public LocalDate getCommentDate() {
+    public LocalDateTime getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(LocalDate commentDate) {
+    public void setCommentDate(LocalDateTime commentDate) {
         this.commentDate = commentDate;
     }
+
+    
 
     public Double getRate() {
         return rate;
@@ -70,12 +76,12 @@ public class CommentEntity {
         this.content = content;
     }
 
-    public CustomerEntity getCustomer() {
-        return customer;
+    public UsersEntity getUsers() {
+        return users;
     }
 
-    public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
+    public void setUsers(UsersEntity users) {
+        this.users = users;
     }
 
     public HotelEntity getHotel() {
@@ -86,5 +92,9 @@ public class CommentEntity {
         this.hotel = hotel;
     }
     
+    public String getCommentDateFormatted(){
+        DateTimeFormatter commentDateFormat = DateTimeFormatter.ofPattern("hh:mm a' - ' dd/MM/yyyy");
+        return commentDateFormat.format(commentDate);
+    }
     
 }
